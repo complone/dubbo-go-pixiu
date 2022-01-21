@@ -18,6 +18,8 @@
 package springcloud
 
 import (
+	"encoding/json"
+	"fmt"
 	"sync"
 	"time"
 )
@@ -199,6 +201,13 @@ func (a *CloudAdapter) fetchServiceByConfig() ([]servicediscovery.ServiceInstanc
 		instances, err = a.sd.QueryServicesByName(a.cfg.Services)
 	} else {
 		instances, err = a.sd.QueryAllServices()
+	}
+
+	content, err := json.Marshal(instances)
+	if err == nil {
+		fmt.Println("当前从zk加载实例列表为: %s", content)
+	} else {
+		logger.Errorf("Error...")
 	}
 
 	if err != nil {

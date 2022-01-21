@@ -44,6 +44,10 @@ type (
 	}
 )
 
+func createZookeeperPathManager(server *Server, bs *model.Bootstrap) *ApiConfigManager {
+	return nil
+}
+
 func CreateDefaultApiConfigManager(server *Server, bs *model.Bootstrap) *ApiConfigManager {
 	acm := &ApiConfigManager{als: make(map[string]ApiConfigListener)}
 	return acm

@@ -103,3 +103,25 @@ resources:
           group: "test"
           version: 1.0.0
           clusterName: "test_dubbo"
+  - path: '/api/v1/test-dubbo/SayHello'
+    type: restful
+    description: user
+    methods:
+      - httpVerb: GET
+        enable: true
+        timeout: 1000ms
+        inboundRequest:
+          requestType: http
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
+            - name: queryStrings.name
+              mapTo: 0
+              mapType: "string"
+          applicationName: "GreeterProvider"
+          interface: "com.apache.dubbo.sample.basic.IGreeter"
+          method: "SayHello"
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"
+

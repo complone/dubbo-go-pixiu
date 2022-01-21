@@ -69,6 +69,8 @@ var (
 	}
 )
 
+///usr/local/share/dubbo-go-pixiu/samples/dubbogo/simple/body/dist/linux_amd64/dubbo-go-pixiu gateway start -a /usr/local/share/dubbo-go-pixiu/samples/dubbogo/simple/body/dist/linux_amd64/pixiuconf/api_config.yaml -c /usr/local/share/dubbo-go-pixiu/samples/dubbogo/simple/body/dist/linux_amd64/pixiuconf/conf.yaml
+
 // init Init startCmd
 func init() {
 	startGatewayCmd.PersistentFlags().StringVarP(&configPath, constant.ConfigPathKey, "c", os.Getenv(constant.EnvDubbogoPixiuConfig), "Load configuration from `FILE`")

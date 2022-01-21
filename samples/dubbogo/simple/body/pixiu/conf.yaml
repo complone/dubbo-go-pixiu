@@ -20,6 +20,11 @@
 static_resources:
   listeners:
     - name: "net/http"
+      protocol_type: "http"
+      address:
+        socket_address:
+          address: "0.0.0.0"
+          port: 8882
       filter_chains:
         filters:
           - name: dgp.filter.httpconnectionmanager
@@ -31,7 +36,7 @@ static_resources:
               http_filters:
                 - name: dgp.filter.http.apiconfig
                   config:
-                    path: $PROJECT_DIR/pixiu/api_config.yaml
+                    path: /Users/windwheel/Documents/gitrepo/dubbo-go-pixiu/samples/dubbogo/simple/body/pixiu/api_config.yaml
                 - name: dgp.filter.http.dubboproxy
                   config:
                     dubboProxyConfig:
@@ -39,7 +44,7 @@ static_resources:
                         "zookeeper":
                           protocol: "zookeeper"
                           timeout: "3s"
-                          address: "127.0.0.1:2181"
+                          address: "node1:2181"
                           username: ""
                           password: ""
                       timeout_config:
@@ -47,3 +52,33 @@ static_resources:
                         request_timeout: 5s
               server_name: "test_http_dubbo"
               generate_request_id: false
+      config:
+        idle_timeout: 5s
+        read_timeout: 5s
+        write_timeout: 5s
+
+  #配置dubbogo的负载均衡策略
+  clusters:
+    - name: "test-grpc"
+      lb_policy: "RoundRobin"
+      endpoints:
+        - socket_address:
+            address: 127.0.0.1
+            port: 50001
+            protocol_type: "GRPC"
+  adapters:
+    - id: "zookeeper"
+      name: "dgp.adapter.dubboregistrycenter"
+#      registries:
+#        name: zookeeper
+#        protocol: zookeeper
+#        timeout: 3s
+#        address: node1:2181
+      config:
+        freshInterval: 60s
+        registries:
+          - registry:
+              name: zookeeper
+              protocol: zookeeper
+              timeout: 3s
+              address: node1:2181

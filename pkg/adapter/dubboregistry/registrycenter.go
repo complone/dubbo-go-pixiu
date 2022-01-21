@@ -18,6 +18,8 @@
 package dubboregistry
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
 )
 
@@ -78,7 +80,9 @@ type Adapter struct {
 
 // Start starts the adaptor
 func (a Adapter) Start() {
+	fmt.Println("开始打印adapter当中的注册中心信息...")
 	for _, reg := range a.registries {
+		fmt.Println("注册中心订阅的是啥...")
 		if err := reg.Subscribe(); err != nil {
 			logger.Errorf("Subscribe fail, error is {%s}", err.Error())
 		}
@@ -107,6 +111,12 @@ func (a *Adapter) Apply() error {
 		if err != nil {
 			return err
 		}
+	}
+
+	context, error := json.Marshal(a.registries)
+
+	if error != nil {
+		fmt.Println("当前监听的注册中心列表为: %s", context)
 	}
 
 	return nil

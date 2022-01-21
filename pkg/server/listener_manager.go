@@ -31,6 +31,7 @@ type ListenerManager struct {
 
 // CreateDefaultListenerManager create listener manager from config
 func CreateDefaultListenerManager(bs *model.Bootstrap) *ListenerManager {
+
 	sl := bs.GetStaticListeners()
 	var ls []listener.ListenerService
 	for _, l := range bs.StaticResources.Listeners {

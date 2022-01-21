@@ -114,6 +114,7 @@ func initDefaultValue() {
 	if logFormat == "" {
 		logFormat = constant.DefaultLogFormat
 	}
+	fmt.Println("初始化默认配置完成,当前配置文件路径为: %s", configPath)
 }
 
 // initLog

@@ -18,6 +18,7 @@
 package zookeeper
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -88,6 +89,7 @@ func (r *ZKRegistry) GetClient() *zk.ZooKeeperClient {
 
 // DoSubscribe is the implementation of subscription on the target registry.
 func (r *ZKRegistry) DoSubscribe() error {
+	fmt.Println("开始订阅....zk的注册中心： %s", r.zkListeners)
 	if err := r.interfaceSubscribe(); err != nil {
 		return err
 	}
@@ -97,6 +99,7 @@ func (r *ZKRegistry) DoSubscribe() error {
 // To subscribe service level service discovery
 func (r *ZKRegistry) interfaceSubscribe() error {
 	intfListener, ok := r.zkListeners[registry.RegisteredTypeInterface]
+	fmt.Println("当前adapter的zk Listener监听列表: %s", intfListener)
 	if !ok {
 		return errors.New("Listener for interface level registration does not initialized")
 	}

@@ -270,7 +270,7 @@ func (u *UserProvider) Reference() string {
 
 // nolint
 func (u User) JavaClassName() string {
-	return "com.dubbogo.pixiu.User"
+	return "com.dubbogo.pixiu.UserService"
 }
 
 // nolint

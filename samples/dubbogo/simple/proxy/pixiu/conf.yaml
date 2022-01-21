@@ -39,7 +39,7 @@ static_resources:
                 http_filters:
                   - name: dgp.filter.http.apiconfig
                     config:
-                      path: $PROJECT_DIR/pixiu/api_config.yaml
+                      path: /Users/windwheel/Documents/gitrepo/dubbo-go-pixiu/samples/dubbogo/simple/body/pixiu/api_config.yaml
                   - name: dgp.filter.http.dubboproxy
                     config:
                       dubboProxyConfig:
