@@ -18,6 +18,7 @@
 package apiconfig
 
 import (
+	"encoding/json"
 	"net/http"
 )
 
@@ -81,6 +82,12 @@ func (factory *FilterFactory) Apply() error {
 	}
 
 	config, err := initApiConfig(factory.cfg)
+
+	context, err := json.Marshal(config.Resources)
+	if err != nil {
+		logger.Errorf("当前拦截path列表: %s", context)
+	}
+
 	if err != nil {
 		logger.Errorf("Get ApiConfig fail: %v", err)
 	}

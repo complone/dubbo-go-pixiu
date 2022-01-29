@@ -197,6 +197,10 @@ func (node *Node) Match(parts []string) (*Node, []string, bool) {
 	childKeys := parts[1:]
 	// isEnd is the end of url path, means node is a place of url end,so the path with parentNode has a real url exists.
 	isEnd := len(childKeys) == 0
+	//nums := len(parts)
+	//visited :=  make([]bool,nums,nums)
+	//var ops int64 = 0
+
 	if isEnd {
 
 		if node.children != nil && node.children[key] != nil && node.children[key].endOfPath {
@@ -211,11 +215,19 @@ func (node *Node) Match(parts []string) (*Node, []string, bool) {
 
 	} else {
 		if node.children != nil && node.children[key] != nil {
+			//如果这里已经开始解析路由规则，意味着刚开始逐个访问子节点
+			//判断这里 /aaa/bbb/xxxxx/ccc/ddd 中的aaa的子节点是否被访问过
+			//ops++
+			//if ops ==3 {
+			//	visited[ops] = true
+			//}
 			n, param, ok := node.children[key].Match(childKeys)
 			if ok {
 				return n, param, ok
 			}
 		}
+		//这里如果开始解析该节点的后缀路由规则
+		//比如aaa后面是 /bbb/xxxxx/ccc/ddd 则需要判断是否访问过
 		if node.PathVariableNode != nil {
 			n, param, ok := node.PathVariableNode.Match(childKeys)
 			param = append(param, key)

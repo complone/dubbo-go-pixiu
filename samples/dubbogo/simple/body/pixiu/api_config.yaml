@@ -19,7 +19,7 @@
 name: pixiu
 description: pixiu sample
 resources:
-  - path: '/api/v1/test-dubbo/user'
+  - path: '/api/v1/test-dubbo/UserProvider'
     type: restful
     description: user
     methods:
@@ -28,6 +28,40 @@ resources:
         timeout: 1000ms
         inboundRequest:
           requestType: http
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
+            #请求体部分
+            - name: requestBody.values
+              mapTo: opt.values
+            - name: requestBody.types
+              mapTo: opt.types
+            # 请求path当中解析/api/v1/application/interface
+            - name: url.application
+              mapTo: opt.application
+            - name: url.interface
+              mapTo: opt.interface
+            - name: queryStrings.method
+              mapTo: opt.method
+            - name: queryStrings.group
+              mapTo: opt.group
+            - name: queryStrings.version
+              mapTo: opt.version
+          applicationName: "UserProvider"
+          interface: "com.dubbogo.pixiu.UserService"
+          method: "GetUserByName"
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"
+  - path: '/api/v1/test-dubbo/user'
+    type: restful
+    description: user
+    methods:
+      - httpVerb: POST
+        enable: true
+        timeout: 1000ms
+        inboundRequest:
+          requestType: dubbo
         integrationRequest:
           requestType: dubbo
           mappingParams:
@@ -100,27 +134,6 @@ resources:
           applicationName: "UserProvider"
           interface: "com.dubbogo.pixiu.UserService"
           method: "GetUserByName"
-          group: "test"
-          version: 1.0.0
-          clusterName: "test_dubbo"
-  - path: '/api/v1/test-dubbo/SayHello'
-    type: restful
-    description: user
-    methods:
-      - httpVerb: GET
-        enable: true
-        timeout: 1000ms
-        inboundRequest:
-          requestType: http
-        integrationRequest:
-          requestType: dubbo
-          mappingParams:
-            - name: queryStrings.name
-              mapTo: 0
-              mapType: "string"
-          applicationName: "GreeterProvider"
-          interface: "com.apache.dubbo.sample.basic.IGreeter"
-          method: "SayHello"
           group: "test"
           version: 1.0.0
           clusterName: "test_dubbo"

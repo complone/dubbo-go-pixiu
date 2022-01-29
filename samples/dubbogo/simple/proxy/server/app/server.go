@@ -37,7 +37,8 @@ var survivalTimeout = int(3e9)
 // 		export CONF_PROVIDER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
-	config.Load()
+	path := "/Users/windwheel/Documents/gitrepo/dubbo-go-pixiu/samples/dubbogo/simple/proxy/server/profiles/dev/server.yml"
+	config.Load(config.WithPath(path))
 	logger.Info("dubbo version is: %s", Version)
 	initSignal()
 }

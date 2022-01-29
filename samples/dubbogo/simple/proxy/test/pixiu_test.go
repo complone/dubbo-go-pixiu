@@ -29,9 +29,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPost1(t *testing.T) {
-	url := "http://localhost:8883/api/v1/test-dubbo/UserService/com.dubbogo.pixiu.UserService?group=test&version=1.0.0&method=GetUserByName"
-	data := "{\"types\":\"string\",\"values\":\"tc\"}"
+func TestPost(t *testing.T) {
+	url := "http://localhost:8883/api/v1/test-dubbo/UserProvider/com.dubbogo.pixiu.UserService?" +
+		"group=dubbo-test&version=1.0.0&method=GetUser"
+	data := "{\"types\":\"string\",\"values\":\"tc\" }"
 	client := &http.Client{Timeout: 5 * time.Second}
 	req, err := http.NewRequest("POST", url, strings.NewReader(data))
 	assert.NoError(t, err)
@@ -42,21 +43,6 @@ func TestPost1(t *testing.T) {
 	assert.Equal(t, 200, resp.StatusCode)
 	s, _ := ioutil.ReadAll(resp.Body)
 	assert.True(t, strings.Contains(string(s), "0001"))
-}
-
-func TestPost2(t *testing.T) {
-	url := "http://localhost:8883/api/v1/test-dubbo/UserService/com.dubbogo.pixiu.UserService?group=test&version=1.0.0&method=UpdateUserByName"
-	data := "{\"types\":\"string,object\",\"values\":[\"tc\",{\"id\":\"0001\",\"code\":1,\"name\":\"tc\",\"age\":15}]}"
-	client := &http.Client{Timeout: 5 * time.Second}
-	req, err := http.NewRequest("POST", url, strings.NewReader(data))
-	assert.NoError(t, err)
-	req.Header.Add("Content-Type", "application/json")
-	resp, err := client.Do(req)
-	assert.NoError(t, err)
-	assert.NotNil(t, resp)
-	assert.Equal(t, 200, resp.StatusCode)
-	s, _ := ioutil.ReadAll(resp.Body)
-	assert.Equal(t, "true", string(s))
 }
 
 func TestPost3(t *testing.T) {

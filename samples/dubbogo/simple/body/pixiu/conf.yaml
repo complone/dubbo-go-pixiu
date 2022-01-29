@@ -24,7 +24,7 @@ static_resources:
       address:
         socket_address:
           address: "0.0.0.0"
-          port: 8882
+          port: 8883
       filter_chains:
         filters:
           - name: dgp.filter.httpconnectionmanager
@@ -76,9 +76,8 @@ static_resources:
 #        address: node1:2181
       config:
         freshInterval: 60s
-        registries:
-          - registry:
-              name: zookeeper
-              protocol: zookeeper
-              timeout: 3s
-              address: node1:2181
+        registry:
+          name: zookeeper
+          protocol: zookeeper
+          timeout: 3s
+          address: node1:2181

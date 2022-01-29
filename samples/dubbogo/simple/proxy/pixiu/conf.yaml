@@ -47,7 +47,7 @@ static_resources:
                           "zookeeper":
                             protocol: "zookeeper"
                             timeout: "3s"
-                            address: "127.0.0.1:2181"
+                            address: "node1:2181"
                             username: ""
                             password: ""
                         timeout_config:
@@ -66,7 +66,7 @@ static_resources:
       registries:
         "zookeeper":
           timeout: "3s"
-          address: "127.0.0.1:2181"
+          address: "node1:2181"
           username: ""
           password: ""
   shutdown_config:

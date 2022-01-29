@@ -18,6 +18,8 @@
 package filter
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/apache/dubbo-go-pixiu/pkg/context/http"
 )
 
@@ -62,6 +64,11 @@ func (c *defaultFilterChain) OnDecode(ctx *http.HttpContext) {
 	for ; c.decodeFiltersIndex < len(c.decodeFilters); c.decodeFiltersIndex++ {
 		filterStatus := c.decodeFilters[c.decodeFiltersIndex].Decode(ctx)
 
+		context, err := json.Marshal(c.decodeFilters[c.decodeFiltersIndex])
+		if err == nil {
+			fmt.Println("当前进行匹配的过滤器为 %s", context)
+		}
+		fmt.Println(c.decodeFilters[c.decodeFiltersIndex])
 		switch filterStatus {
 		case Continue:
 			continue
