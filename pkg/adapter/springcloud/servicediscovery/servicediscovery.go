@@ -76,7 +76,7 @@ func (i *ServiceInstance) GetUniqKey() string {
 // ToEndpoint
 func (i *ServiceInstance) ToEndpoint() *model.Endpoint {
 	a := model.SocketAddress{Address: i.Host, Port: i.Port}
-	return &model.Endpoint{ID: i.ID, Address: a, Name: i.ServiceName, Metadata: i.Metadata}
+	return &model.Endpoint{ID: i.ID, Address: a, Name: i.ServiceName, Metadata: i.Metadata, Healthy: true}
 }
 
 // ToRoute route ID is cluster name, so equal with endpoint name and routerMatch prefix is also service name

@@ -228,10 +228,12 @@ func (a *CloudAdapter) firstFetch() error {
 	// manage cluster and route
 	cm := server.GetClusterManager()
 	rm := server.GetRouterManager()
+
 	for _, instance := range instances {
 		endpoint := instance.ToEndpoint()
 		// todo: maybe instance service name not equal with cluster name ?
 		cm.SetEndpoint(endpoint.Name, endpoint)
+		cm.HealthCheck(endpoint, endpoint.Healthy, endpoint.Address.GetAddress(), endpoint.Name)
 		// route ID is cluster name, so equal with endpoint name
 		route := instance.ToRoute()
 		rm.AddRouter(route)

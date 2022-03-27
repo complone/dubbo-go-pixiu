@@ -81,15 +81,35 @@ type (
 	// DiscoveryType
 	DiscoveryType int32
 
-	// Endpoint
+	// Endpoint 一个服务实例
 	Endpoint struct {
 		ID      string        `yaml:"ID" json:"ID"`     // ID indicate one endpoint
 		Name    string        `yaml:"name" json:"name"` // Name the cluster unique name
 		Address SocketAddress `yaml:"socket_address" json:"socket_address" mapstructure:"socket_address"`
 		// extra info such as label or other meta data
 		Metadata map[string]string `yaml:"meta" json:"meta"`
+		Healthy  bool              `yaml:"healthy" json:"healthy"`
 	}
+
+	/**
+	 * 第一版先负责实现健康度累加的情况
+	 * 后续根据每台机器的服务实例为维度进行分组统计
+	 */
+	//Healthy struct {
+	//	Healthy string   `yaml:"Healthy" json:"Healthy"` //provider服务实例的健康状态
+	//	HealthWeight int `yaml:"HealthWeight" json:"HealthWeight"` //在健康检查当中 心跳线程每次上报 健康度+1 需要配合PickEndpoint的负载均衡权重计算
+	//	consumerIsRemove bool `yaml:"consumerIsRemove" json:"consumerIsRemove"`  //当consumer的健康度为负数的时候，需要摘除，即标记下线 跑出异常让用户重新注册
+	//	providerIsRemove bool  `yaml:"providerIsRemove" json:"providerIsRemove"`
+	//
+	//}
 )
+
+/**
+ * 需要设置到注册中心的节点下 作为一个属性
+ */
+func (c *Cluster) ChangeHealth(healthWeight bool, ipAddress string) *bool {
+	return nil
+}
 
 func (c *Cluster) PickOneEndpoint() *Endpoint {
 	// TODO: add lb strategy abstraction
@@ -105,6 +125,9 @@ func (c *Cluster) PickOneEndpoint() *Endpoint {
 		return c.Endpoints[rand.Intn(len(c.Endpoints))]
 	} else if c.Lb == RoundRobin {
 
+		//FIXME 假设现在有一批服务实例列表 采用轮训负载
+		// prePickEndpointIndex 代表每一次pixiu gateway发起的请求
+		// 负载到编号哪几台机器上
 		lens := len(c.Endpoints)
 		if c.prePickEndpointIndex >= lens {
 			c.prePickEndpointIndex = 0
